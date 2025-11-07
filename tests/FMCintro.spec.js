@@ -64,41 +64,46 @@ test('FMC intro', async ({ page }) => {
   await login.login('abc@gmail.com', 'Admin@123');
 
   // Helper function to safely click
-  const safeClick = async (locator, label, timeout = 15000) => {
-    try {
-      if (await locator.isVisible({ timeout })) {
-        await locator.scrollIntoViewIfNeeded();
-        await page.waitForTimeout(500); // small stabilization delay
+  // Retry helper for dynamic elements
+  const clickWithRetry = async (locator, label, retries = 3) => {
+    for (let i = 0; i < retries; i++) {
+      try {
+        await locator.waitFor({ state: 'visible', timeout: 5000 });
+        const box = await locator.boundingBox();
+        if (!box) throw new Error('Not attached');
         await locator.click();
         console.log(`✅ Clicked ${label}`);
-      } else {
-        console.log(`⚠️ Skipped ${label} (not visible)`);
+        return;
+      } catch (e) {
+        console.log(`⚠️ Retry ${i + 1} failed for ${label}: ${e.message}`);
+        await page.waitForTimeout(1000);
       }
-    } catch (e) {
-      console.log(`⚠️ Skipped ${label}: ${e.message}`);
     }
+    throw new Error(`❌ Failed to click ${label} after ${retries} retries`);
   };
 
-  // Wait for page to stabilize
-  await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(2000);
+  // SafeClick wrapper
+  const safeClick = async (locator, label) => {
+    try { await clickWithRetry(locator, label, 3); } 
+    catch (e) { console.log(`⚠️ Skipped ${label}: ${e.message}`); }
+  };
 
   // Navigation & filters
-   await safeClick(page.getByRole('link', { name: "Today's Deals" }), "Today's Deals");
-  await safeClick(page.locator("(//input[@type='checkbox'])[3]"), 'Clothing Accessories');
-  await safeClick(page.locator("//button[normalize-space()='Clear (39)']"), 'Clear All Filters');
+  await safeClick(page.getByRole('link', { name: "Today's Deals" }), "Today's Deals");
+  await safeClick(page.locator("label:has-text('Clothing Accessories') input[type='checkbox']"), 'Clothing Accessories');
+  await safeClick(page.locator("button:has-text('Clear All')"), 'Clear All Filters');
   await safeClick(page.getByRole('link', { name: 'New' }), 'New');
-  await safeClick(page.locator("(//input[@type='checkbox'])[6]"), 'Men S Fashion');
-  await safeClick(page.locator("//button[normalize-space()='Clear (5)']"), 'Clear All Filters');
+  await safeClick(page.locator("label:has-text('Men S Fashion') input[type='checkbox']"), 'Men S Fashion');
   await safeClick(page.getByRole('link', { name: 'Kids' }), 'Kids');
-  await safeClick(page.locator("(//input[@type='checkbox'])[14]"), 'Watches');
-  await safeClick(page.locator("(//input[@type='checkbox'])[4]"), 'Computers Accessories');
-  await safeClick(page.locator(".recentProductsGrid_sidebarClearButton__rzA__"), 'Clear All Filters');
+  await safeClick(page.locator("label:has-text('Watches') input[type='checkbox']"), 'Watches');
+  await safeClick(page.locator("label:has-text('Computers Accessories') input[type='checkbox']"), 'Computers Accessories');
   await safeClick(page.getByRole('link', { name: 'Women' }), 'Women');
-  await safeClick(page.locator('input[type="checkbox"][name="Clothing Accessories"]'), 'Clothing Accessories');
+  await safeClick(page.locator("label:has-text('Clothing Accessories') input[type='checkbox']"), 'Clothing Accessories');
   await safeClick(page.locator('button:has-text("Clear")'), 'Clear Filters');
-  await safeClick(page.getByRole('link', { name: 'Men' }), 'Men');
+  await safeClick(page.locator('a[href="/MaleProductsGrid"]'), 'Men');
   await safeClick(page.getByRole('link', { name: 'My Wish' }), 'My Wish');
+;
+
   // My Wish section
   const wishInput = page.getByRole('textbox', { name: /Share your wish/i });
   if (await wishInput.isVisible({ timeout: 10000 })) {
