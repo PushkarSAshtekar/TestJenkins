@@ -1,0 +1,59 @@
+pipeline {
+  agent any
+
+  tools {
+    nodejs "Node_18" // Make sure Node_18 is configured in Jenkins > Manage Jenkins > Tools
+  }
+
+  environment {
+    GIT_CREDENTIALS_ID = 'github-credentials' // The credentials ID you added in Jenkins
+  }
+
+  stages {
+    stage('Checkout Code') {
+      steps {
+        script {
+          // Checkout private GitHub repository
+          checkout([
+            $class: 'GitSCM',
+            branches: [[name: '*/TestJenkins']],
+            doGenerateSubmoduleConfigurations: false,
+            extensions: [],
+            userRemoteConfigs: [[
+              url: 'https://github.com/PushkarSAshtekar/TestJenkins.git',
+              credentialsId: env.GIT_CREDENTIALS_ID
+            ]]
+          ])
+        }
+      }
+    }
+
+    stage('Install Dependencies') {
+      steps {
+        sh 'npm ci || npm install'
+      }
+    }
+
+    stage('Run Playwright Tests') {
+      steps {
+        sh 'npx playwright install --with-deps'
+        sh 'npx playwright test'
+      }
+    }
+
+    stage('Post Build') {
+      steps {
+        echo "✅ Build and Test completed successfully!"
+      }
+    }
+  }
+
+  post {
+    failure {
+      echo "❌ Build failed. Check logs for errors."
+    }
+    always {
+      echo "Pipeline finished."
+    }
+  }
+}
