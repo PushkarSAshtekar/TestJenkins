@@ -7,6 +7,8 @@ test('User can log in and access dashboard', async ({ page }) => {
   
 
   await login.open();
+
+  
   await login.login('abc@gmail.com', 'Admin@123');
  // await dashboard.openDashboard();
 
