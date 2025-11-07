@@ -6,7 +6,7 @@ pipeline {
   }
 
   environment {
-    GIT_CREDENTIALS_ID = 'github-credentials' // The credentials ID you added in Jenkins
+    GIT_CREDENTIALS_ID = 'github-token' // The credentials ID you added in Jenkins
   }
 
   stages {
@@ -16,7 +16,7 @@ pipeline {
           // Checkout private GitHub repository
           checkout([
             $class: 'GitSCM',
-            branches: [[name: '*/TestJenkins']],
+            branches: [[name: '*/main']],
             doGenerateSubmoduleConfigurations: false,
             extensions: [],
             userRemoteConfigs: [[
