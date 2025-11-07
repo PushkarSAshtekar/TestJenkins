@@ -84,27 +84,26 @@ test('FMC intro', async ({ page }) => {
   await page.waitForTimeout(2000);
 
   // Navigation & filters
-  await safeClick(page.getByRole('link', { name: "Today's Deals" }), "Today's Deals");
-  await safeClick(page.getByRole('checkbox', { name: 'Clothing Accessories' }), 'Clothing Accessories');
-  await safeClick(page.getByRole('button', { name: /Clear All Filters/ }), 'Clear All Filters');
+   await safeClick(page.getByRole('link', { name: "Today's Deals" }), "Today's Deals");
+  await safeClick(page.locator("(//input[@type='checkbox'])[3]"), 'Clothing Accessories');
+  await safeClick(page.locator("//button[normalize-space()='Clear (39)']"), 'Clear All Filters');
   await safeClick(page.getByRole('link', { name: 'New' }), 'New');
-  await safeClick(page.getByRole('checkbox', { name: 'Men S Fashion', exact: true }), 'Men S Fashion');
-  await safeClick(page.getByRole('button', { name: /Clear All Filters/ }), 'Clear All Filters');
+  await safeClick(page.locator("(//input[@type='checkbox'])[6]"), 'Men S Fashion');
+  await safeClick(page.locator("//button[normalize-space()='Clear (5)']"), 'Clear All Filters');
   await safeClick(page.getByRole('link', { name: 'Kids' }), 'Kids');
-  await safeClick(page.getByRole('checkbox', { name: 'Watches' }), 'Watches');
-  await safeClick(page.getByRole('checkbox', { name: 'Computers Accessories' }), 'Computers Accessories');
-  await safeClick(page.getByRole('button', { name: /Clear All Filters/ }), 'Clear All Filters');
+  await safeClick(page.locator("(//input[@type='checkbox'])[14]"), 'Watches');
+  await safeClick(page.locator("(//input[@type='checkbox'])[4]"), 'Computers Accessories');
+  await safeClick(page.locator(".recentProductsGrid_sidebarClearButton__rzA__"), 'Clear All Filters');
   await safeClick(page.getByRole('link', { name: 'Women' }), 'Women');
-  await safeClick(page.getByRole('checkbox', { name: 'Clothing Accessories' }), 'Clothing Accessories');
-  await safeClick(page.getByRole('button', { name: /Clear/ }), 'Clear Filters');
-  await safeClick(page.getByRole('link', { name: 'Men', exact: true }), 'Men');
+  await safeClick(page.locator('input[type="checkbox"][name="Clothing Accessories"]'), 'Clothing Accessories');
+  await safeClick(page.locator('button:has-text("Clear")'), 'Clear Filters');
+  await safeClick(page.getByRole('link', { name: 'Men' }), 'Men');
   await safeClick(page.getByRole('link', { name: 'My Wish' }), 'My Wish');
-
   // My Wish section
   const wishInput = page.getByRole('textbox', { name: /Share your wish/i });
   if (await wishInput.isVisible({ timeout: 10000 })) {
     await wishInput.fill('hi');
-    await safeClick(page.locator("(//button[normalize-space()='Send'])[1]"), 'Send Wish');
+    await safeClick(page.locator("//button[normalize-space()='Send']"), 'Send Wish');
   } else {
     console.log('⚠️ Wish input not visible, skipping...');
   }
