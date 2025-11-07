@@ -23,24 +23,23 @@ pipeline {
 
     stage('Setup Node.js') {
       steps {
-        // Manually install Node.js and npm if not already installed
-        sh '''
-          node -v || (echo "Installing Node.js..." && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs)
-          npm -v || echo "npm already installed"
+        bat '''
+          node -v || echo "Node.js should be installed manually on Windows agent"
+          npm -v || echo "npm should be installed manually on Windows agent"
         '''
       }
     }
 
     stage('Install Dependencies') {
       steps {
-        sh 'npm ci || npm install'
+        bat 'npm ci || npm install'
       }
     }
 
     stage('Run Playwright Tests') {
       steps {
-        sh 'npx playwright install --with-deps'
-        sh 'npx playwright test'
+        bat 'npx playwright install --with-deps'
+        bat 'npx playwright test'
       }
     }
 
