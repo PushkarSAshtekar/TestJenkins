@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { log } from "console";
 test("Verify product entered in search box is getting displayed or not", async ({ page }) => {
   await page.goto("https://www.freemycost.com/", { timeout: 60000, waitUntil: "load" });
 
@@ -24,7 +25,7 @@ await expect(page).toHaveTitle(
   // await page.keyboard.press("ArrowDown"); // To highlight the first suggestion
   // await page.keyboard.press("Enter");     // To select it
   // Search for "Football"
-const searchBox = page.getByPlaceholder(/search/i);
+const searchBox = page.locator("//input[@placeholder='Search for anything...']");
 await expect(searchBox).toBeVisible({ timeout: 10000 });
 await searchBox.click();
 await searchBox.fill("Football");
@@ -37,6 +38,7 @@ await page.keyboard.press("Enter");
   // Wait for search results grid
  const productGrid = page.locator("(//div[@class='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'])[1]");
 await expect(productGrid).toBeVisible({ timeout: 10000 });
+console.log("✅ Product grid is visible");
 
 
   // Wait for at least one product card (having image inside)
