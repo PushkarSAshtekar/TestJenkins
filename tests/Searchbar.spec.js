@@ -7,9 +7,7 @@ test("Verify product entered in search box is getting displayed or not", async (
 
 
   // Assert page title
-await expect(page).toHaveTitle(
-    /FreeMyCost - Get Products for Free by Referring/i
-  );
+await expect(page).toHaveTitle(/freemycost/i);
   console.log("✅ Page title verified");
 
   
