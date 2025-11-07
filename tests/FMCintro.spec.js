@@ -90,19 +90,20 @@ test('FMC intro', async ({ page }) => {
 
   // Navigation & filters
   await safeClick(page.getByRole('link', { name: "Today's Deals" }), "Today's Deals");
-  await safeClick(page.locator("label:has-text('Clothing Accessories') input[type='checkbox']"), 'Clothing Accessories');
-  await safeClick(page.locator("button:has-text('Clear All')"), 'Clear All Filters');
+  await safeClick(page.locator("(//input[@type='checkbox' and @name='Clothing Accessories'])[1]"), 'Clothing Accessories');
+  await safeClick(page.locator("//button[contains(text(), 'Clear All')]"), 'Clear All Filters');
   await safeClick(page.getByRole('link', { name: 'New' }), 'New');
-  await safeClick(page.locator("label:has-text('Men S Fashion') input[type='checkbox']"), 'Men S Fashion');
+  await safeClick(page.locator("(//input[@type='checkbox' and @name='Men S Fashion'])[1]"), 'Men S Fashion');
+  await safeClick(page.locator("//button[contains(text(), 'Clear All')]"), 'Clear All Filters');
   await safeClick(page.getByRole('link', { name: 'Kids' }), 'Kids');
-  await safeClick(page.locator("label:has-text('Watches') input[type='checkbox']"), 'Watches');
-  await safeClick(page.locator("label:has-text('Computers Accessories') input[type='checkbox']"), 'Computers Accessories');
+  await safeClick(page.locator("(//input[@type='checkbox' and @name='Watches'])[1]"), 'Watches');
+  await safeClick(page.locator("(//input[@type='checkbox' and @name='Computers Accessories'])[1]"), 'Computers Accessories');
+  await safeClick(page.locator("//button[contains(text(), 'Clear All')]"), 'Clear All Filters');
   await safeClick(page.getByRole('link', { name: 'Women' }), 'Women');
-  await safeClick(page.locator("label:has-text('Clothing Accessories') input[type='checkbox']"), 'Clothing Accessories');
-  await safeClick(page.locator('button:has-text("Clear")'), 'Clear Filters');
-  await safeClick(page.locator('a[href="/MaleProductsGrid"]'), 'Men');
+  await safeClick(page.locator("(//input[@type='checkbox' and @name='Clothing Accessories'])[2]"), 'Clothing Accessories');
+  await safeClick(page.locator("//button[contains(text(), 'Clear')]"), 'Clear Filters');
+  await safeClick(page.getByRole('link', { name: 'Men' }), 'Men');
   await safeClick(page.getByRole('link', { name: 'My Wish' }), 'My Wish');
-;
 
   // My Wish section
   const wishInput = page.getByRole('textbox', { name: /Share your wish/i });
