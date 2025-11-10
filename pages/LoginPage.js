@@ -119,7 +119,7 @@ export class LoginPage {
       await safeClick(this.continueBtn);
 
       // Wait again for password input after retry
-      await this.passwordInput.waitFor({ state: 'visible', timeout: 15000 });
+      await this.passwordInput.waitFor({ state: 'visible', timeout: 0 });
       console.log('✅ Password field appeared after retry.');
     }
 
