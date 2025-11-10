@@ -1,7 +1,10 @@
 import { test, expect } from "@playwright/test";
 import { LoginPage } from '../pages/LoginPage.js';
+
+
 test("Verify product entered in search box is getting displayed or not", async ({ page }) => {
-  await page.goto("https://www.freemycost.com/", { timeout: 60000, waitUntil: "load" });
+  await page.goto("https://www.freemycost.com/",
+     { timeout: 60000, waitUntil: "load" });
 
   
 
