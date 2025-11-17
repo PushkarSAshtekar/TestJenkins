@@ -14,16 +14,17 @@ test("Navigation and Product Display Test", async ({ page }) => {
  
 
   // --- Login sequence ---
-     await expect(page).toHaveTitle(/freemycost/i);
-  console.log("✅ Page title verified");
+  const bannerImage = page.locator(
+    "//button[@aria-label='User Menu']//*[name()='svg']"
+  );
+  await bannerImage.waitFor({ state: "visible", timeout: 120000 });
+  await bannerImage.click();
+  console.log("✅ Opened login form.");
 
-const login = new LoginPage(page);
-  
-  await login.open();
-  await login.login('abc@gmail.com', 'Admin@123')
-    console.log("✅ Logged in successfully");
-
-
+  const emailField = page.locator("input[id='EmailOrMobile']");
+  await emailField.waitFor({ state: "visible", timeout: 120000 });
+  await emailField.fill("abc@gmail.com");
+  console.log("✅ Filled email field.");
 
  
 

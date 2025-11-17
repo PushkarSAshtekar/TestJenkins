@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    GIT_CREDENTIALS_ID = 'github-token'
+
   }
 
   stages {
@@ -11,11 +11,11 @@ pipeline {
         script {
           checkout([
             $class: 'GitSCM',
-            branches: [[name: '*/main']],
-            userRemoteConfigs: [[
-              url: 'https://github.com/PushkarSAshtekar/TestJenkins.git',
-              credentialsId: env.GIT_CREDENTIALS_ID
-            ]]
+              dir('FMCAutomation01') {
+                    git branch: 'main',
+                        credentialsId: 'Mykey',   // NEW SSH KEY
+                        url: 'git@github.com:PushkarSAshtekar/TestJenkins.git'   // SSH URL
+              }
           ])
         }
       }
