@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-
+    GIT_CREDENTIALS_ID = 'github-token'
   }
 
   stages {
@@ -13,7 +13,7 @@ pipeline {
             $class: 'GitSCM',
               dir('FMCAutomation01') {
                     git branch: 'main',
-                        credentialsId: 'git',   // NEW SSH KEY
+                        credentialsId: 'Mykey',   // NEW SSH KEY
                         url: 'git@github.com:PushkarSAshtekar/TestJenkins.git'   // SSH URL
               }
           ])
