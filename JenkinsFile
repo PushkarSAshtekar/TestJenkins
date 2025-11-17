@@ -13,7 +13,7 @@ pipeline {
             $class: 'GitSCM',
               dir('FMCAutomation01') {
                     git branch: 'main',
-                        credentialsId: 'Mykey',   // NEW SSH KEY
+                        credentialsId: 'git',   // NEW SSH KEY
                         url: 'git@github.com:PushkarSAshtekar/TestJenkins.git'   // SSH URL
               }
           ])
