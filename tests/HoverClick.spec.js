@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { LoginPage } from '../pages/LoginPage.js';
+import { LoginPage } from "../pages/LoginPage.js";
 
 test("Hover function test", async ({ page }) => {
   // Go to website
