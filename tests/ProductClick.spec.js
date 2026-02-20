@@ -21,7 +21,7 @@ test.describe('Product hover – icons + Quick‑View (no HTML changes)', () => 
   //    await expect(page).toHaveTitle(/freemycost/i);
   // console.log("✅ Page title verified");
 
-  await page.goto(" http://65.20.77.230:5000/", {
+  await page.goto("http://147.93.96.2:2400/", {
     timeout: 60000,
     waitUntil: "domcontentloaded",
   });

@@ -13,7 +13,7 @@ test.describe('FreeMyCost - Full Dashboard Navigation', () => {
     // });
 
 
-     await page.goto(" http://65.20.77.230:5000/", {
+     await page.goto("http://147.93.96.2:2400/", {
     waitUntil: 'networkidle',
       timeout: 90_000,
   });
