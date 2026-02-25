@@ -12,7 +12,7 @@ export class LoginPage {
   }
 
   async open() {
-    await this.page.goto('https://www.freemycost.com/', { waitUntil: 'networkidle' });
+    await this.page.goto('http://147.93.96.2:2400/', { waitUntil: 'networkidle' });
     await expect(this.page).toHaveTitle(/freemycost/i);
     console.log('✅ Verified page title.');
 

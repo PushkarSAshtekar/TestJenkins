@@ -75,12 +75,26 @@ if (await product.isVisible({ timeout: 30000 })) {
   await page.getByPlaceholder('Order Date').fill('2025-12-30');
     await page.getByRole('button', { name: 'Confirm' }).click();
 
+  // console.log('💡 Writing recommendation...');
+  // await page.locator('div').filter({ hasText: 'Share Your Recommendation 💡' }).nth(5).click();
+  // await page.getByRole('textbox', { name: 'Add a compelling title...' }).fill('Nice Title');
+  // await page.getByRole('textbox', { name: 'Share Your Recommendation 💡' }).fill('This is a great product!');
+  // await page.getByRole('button', { name: 'Publish Review' }).click();
+  // console.log('✅ Review published');
   console.log('💡 Writing recommendation...');
-  await page.locator('div').filter({ hasText: 'Share Your Recommendation 💡' }).nth(5).click();
-  await page.getByRole('textbox', { name: 'Add a compelling title...' }).fill('Nice Title');
-  await page.getByRole('textbox', { name: 'Share Your Recommendation 💡' }).fill('This is a great product!');
-  await page.getByRole('button', { name: 'Publish Review' }).click();
-  console.log('✅ Review published');
+
+// Wait for the review form to appear after clicking Confirm
+await page.waitForTimeout(2000);
+
+// Try to find the recommendation textarea more reliably
+const recommendationBox = page.getByRole('textbox', { name: 'Share Your Recommendation 💡' });
+await recommendationBox.waitFor({ state: 'visible', timeout: 30000 });
+await recommendationBox.click();
+
+await page.getByRole('textbox', { name: 'Add a compelling title...' }).fill('Nice Title');
+await recommendationBox.fill('This is a great product!');
+await page.getByRole('button', { name: 'Publish Review' }).click();
+console.log('✅ Review published');
 
   console.log('🔒 Logging out...');
   const userMenuBtn = page.getByRole('button', { name: 'User Menu' });

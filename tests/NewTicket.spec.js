@@ -40,7 +40,7 @@ await page.goto("http://147.93.96.2:2400/", {
   // =================================================================
   // 5. Create New Ticket
   // =================================================================
-  await page.getByRole('button', { name: 'Show ticket form' }).click();
+  await page.getByText('Raise a Ticket').click();
 
   const titleInput = page.getByRole('textbox', { name: 'Ticket Title' });
   await titleInput.waitFor({ state: 'visible', timeout: 10_000 });

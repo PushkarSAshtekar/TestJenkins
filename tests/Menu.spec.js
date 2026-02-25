@@ -1,5 +1,5 @@
 // tests/freemycost_dashboard.spec.js
-const { test, expect } = require('@playwright/test');
+import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage.js';
 
 test.describe('FreeMyCost - Full Dashboard Navigation', () => {
