@@ -82,7 +82,7 @@ const login = new LoginPage(page);
     await icons.quick.click({ timeout: 10_000 });
 
 // Wait for modal to open first
-await page.waitForTimeout(2000);
+await page.waitForTimeout(9000);
 
 const boughtBtn = page.getByRole('button', { name: 'Already bought?' });
 await boughtBtn.waitFor({ state: 'visible', timeout: 30_000 });

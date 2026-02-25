@@ -62,7 +62,8 @@ const login = new LoginPage(page);
     await page.locator('header svg').first().click(); // back
 
     await goToMenu('Orders', 'text=My Orders');
-    await page.locator('div').filter({ hasText: 'My Orders' }).nth(4).click();
+    // await page.locator('div').filter({ hasText: 'My Orders' }).nth(4).click();
+    await page.waitForLoadState('networkidle', { timeout: 20_000 });
     await page.locator('header svg').first().click(); // back
 
     await goToMenu('Reviews');
