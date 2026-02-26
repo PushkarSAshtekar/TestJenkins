@@ -79,32 +79,65 @@ const login = new LoginPage(page);
     // const boughtBtn = page.getByRole('button', { name: 'Already bought?' });
     // await boughtBtn.waitFor({ state: 'visible', timeout: 15_000 });
     // await boughtBtn.click();
-    await icons.quick.click({ timeout: 10_000 });
+   // await icons.quick.click({ timeout: 10_000 });
 
 // Wait for modal to open first
-await page.waitForTimeout(9000);
+// await page.waitForTimeout(9000);
 
+// const boughtBtn = page.getByRole('button', { name: 'Already bought?' });
+// await boughtBtn.waitFor({ state: 'visible', timeout: 30_000 });
+// await boughtBtn.click();
+
+
+//     await page.getByRole('textbox', { name: 'Order ID' }).fill('1122');
+//     await page.getByRole('textbox', { name: 'Tracking Link' }).fill('1122');
+
+// ── 9. Click Quick‑View (third icon) ───────────────────
+await firstCard.scrollIntoViewIfNeeded();
+await firstCard.hover({ timeout: 12_000 });
+await page.waitForTimeout(500);
+
+// Re-locate quick icon after hover to avoid stale reference
+const quickIcon = firstCard.locator('[class*="ProductCard_icon"]').nth(3);
+await quickIcon.waitFor({ state: 'visible', timeout: 10_000 });
+await quickIcon.click({ force: true });
+
+// Wait for modal to appear
+await page.waitForTimeout(3000);
+
+// Check if modal opened
 const boughtBtn = page.getByRole('button', { name: 'Already bought?' });
+const isBoughtVisible = await boughtBtn.isVisible().catch(() => false);
+
+if (!isBoughtVisible) {
+  // Modal didn't open, try clicking quick icon again
+  console.log('Modal not opened, retrying quick view click...');
+  await firstCard.hover({ timeout: 12_000 });
+  await page.waitForTimeout(500);
+  await quickIcon.click({ force: true });
+  await page.waitForTimeout(3000);
+}
+
 await boughtBtn.waitFor({ state: 'visible', timeout: 30_000 });
 await boughtBtn.click();
 
-
-    await page.getByRole('textbox', { name: 'Order ID' }).fill('1122');
-    await page.getByRole('textbox', { name: 'Tracking Link' }).fill('1122');
-
+// Use unique IDs to avoid "already exists" error
+await page.getByRole('textbox', { name: 'Order ID' }).fill('OD' + Date.now());
+await page.getByRole('textbox', { name: 'Tracking Link' }).fill('TL' + Date.now());
     // Date‑time picker – ISO string for <input type="datetime-local">
-    const now = new Date();
-    now.setHours(11, 30, 0, 0);
-    const iso = now.toISOString().slice(0, 16); // "2025-11-11T11:30"
-    const dateInput = page.locator('input[placeholder="Order Date and Time"]');
-    await dateInput.fill(iso);
-
+    // const now = new Date();
+    // now.setHours(11, 30, 0, 0);
+    // const iso = now.toISOString().slice(0, 16); // "2025-11-11T11:30"
+    // const dateInput = page.locator('input[placeholder="Order Date and Time"]');
+    // await dateInput.fill(iso);
+ await page.getByPlaceholder('Order Date').fill('2025-12-30');
+  await page.getByRole('button', { name: 'Confirm' }).click();
     console.log('Quick‑View form filled');
 
     // ── 11. Final screenshot (Jenkins artifact) ─────────────
-    await page.screenshot({
-      path: 'test-results/hover_quickview_final.png',
-      fullPage: true,
-    });
+    // await page.screenshot({
+    //   path: 'test-results/hover_quickview_final.png',
+    //   fullPage: true,
+    // });
   });
 });
