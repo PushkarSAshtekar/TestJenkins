@@ -33,6 +33,7 @@ export default defineConfig({
   reporter: [
     ['list'],
     ['html', { open: 'never' }], // Generates HTML report
+    ['json', { outputFile: 'test-results.json' }],  // ← only add this line
   ],
   use: {
     headless: process.env.CI ? true : false, // Headless mode in Jenkins
